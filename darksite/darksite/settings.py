@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
+    'graphene_django',
 
     'account',
     'blog',
@@ -159,6 +159,13 @@ USE_TZ = True
 
 STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT')
 STATIC_URL = '/static/'
+
+
+# Graphene Django
+
+GRAPHENE = {
+    'SCHEMA': 'darksite.schema.schema',
+}
 
 
 # Django Rest Framework

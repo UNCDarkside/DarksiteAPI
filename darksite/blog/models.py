@@ -7,7 +7,6 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
-from rest_framework.reverse import reverse
 
 
 class Post(models.Model):
@@ -81,13 +80,6 @@ class Post(models.Model):
             )
 
             self.slug = f'{slugify(self.title)}-{suffix}'
-
-    def get_absolute_url(self):
-        """
-        Returns:
-            The URL of the instance's detail view.
-        """
-        return reverse('blog:post-detail', kwargs={'post_slug': self.slug})
 
     @property
     def rendered(self):
