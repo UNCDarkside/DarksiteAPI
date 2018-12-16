@@ -1,0 +1,46 @@
+---
+domain_name: api.uncdarkside.cdriehuys.com
+
+db_host: localhost
+db_name: darksite
+db_password: "{{ vault_db_password }}"
+db_port: 5432
+db_user: django
+
+python_app_repo: https://github.com/UNCDarkside/DarksiteAPI
+
+python_app_python_version: python3.6
+
+python_app_name: darksite-api
+python_app_package: darksite
+
+django_venv: "{{ python_app_venv }}"
+django_app_root: "{{ python_app_project_root }}/{{ python_app_package }}"
+
+django_admin_env:
+  ADMIN_EMAIL: "admin@{{ domain_name }}"
+  ADMIN_PASSWORD: "{{ vault_admin_password }}"
+
+django_env:
+  DJANGO_ALLOWED_HOSTS: "{{ domain_name }}"
+  DJANGO_SECRET_KEY: "{{ vault_django_secret_key }}"
+
+  DJANGO_DB_HOST: "{{ db_host }}"
+  DJANGO_DB_NAME: "{{ db_name }}"
+  DJANGO_DB_PASSWORD: "{{ db_password }}"
+  DJANGO_DB_PORT: "{{ db_port }}"
+  DJANGO_DB_USER: "{{ db_user }}"
+
+app_config_directory: /etc/darksite-api
+app_config_env_vars: "{{ django_base_env | combine(django_env) }}"
+
+gunicorn_env_file: "{{ app_config_env_file }}"
+gunicorn_venv: "{{ python_app_venv }}"
+gunicorn_working_dir: "{{ django_app_root }}"
+gunicorn_wsgi_app: "{{ python_app_package }}.wsgi:application"
+
+letsencrypt_domain: "{{ domain_name }}"
+letsencrypt_email: "chathan@driehuys.com"
+
+nginx_proxy_socket: "{{ gunicorn_socket_uri }}"
+nginx_server_name: "{{ domain_name }}"

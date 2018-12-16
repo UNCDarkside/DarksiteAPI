@@ -1,0 +1,63 @@
+---
+- name: Install git
+  become: true
+  apt:
+    name: git
+
+- name: Add deadsnakes PPA
+  become: true
+  apt_repository:
+    repo: "ppa:deadsnakes/ppa"
+    update_cache: true
+
+- name: Install python
+  become: true
+  apt:
+    name: "{{ python_app_python_version }}"
+
+- name: Install python packaging tools
+  become: true
+  apt:
+    name:
+      - "{{ python_app_setuptools_package }}"
+      - python-setuptools
+      - "{{ python_app_pip_package }}"
+
+- name: Install pipenv
+  become: true
+  pip:
+    executable: "{{ python_app_pip_command }}"
+    name: pipenv
+    state: latest
+
+- name: Create directory to hold project
+  become: true
+  file:
+    path: "{{ python_app_project_root | dirname }}"
+    state: directory
+
+- name: Update project source code
+  become: true
+  git:
+    depth: 1
+    dest: "{{ python_app_project_root }}"
+    force: true
+    repo: "{{ python_app_repo }}"
+    update: true
+    version: "{{ python_app_repo_version }}"
+  notify: reload gunicorn
+
+- name: Install dependencies
+  command: pipenv install --deploy
+  args:
+    chdir: "{{ python_app_project_root }}"
+
+- name: Get location of virtual environment
+  command: pipenv --venv
+  args:
+    chdir: "{{ python_app_project_root }}"
+  register: venv_location
+
+- name: Save virtualenv location
+  set_fact:
+    python_app_venv: "{{ venv_location.stdout }}"

@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 django = "*"
 gunicorn = "*"
+djangorestframework = "*"
+markdown = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 ipython = "*"

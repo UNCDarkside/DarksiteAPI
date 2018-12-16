@@ -1,0 +1,27 @@
+---
+- name: Install Postgres and required tools
+  become: true
+  apt:
+    name:
+      - postgresql
+      - python-pip
+      - python-setuptools
+
+- name: Install psycopg2 to interact with Postgres
+  become: true
+  pip:
+    name: psycopg2
+
+- name: Create postgres user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+
+- name: Create application database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ db_name }}"
+    owner: "{{ db_user }}"
