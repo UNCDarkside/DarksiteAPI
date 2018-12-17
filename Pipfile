@@ -10,6 +10,7 @@ markdown = "*"
 "psycopg2" = "*"
 graphene-django = "*"
 graphene = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 ipython = "*"
