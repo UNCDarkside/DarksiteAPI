@@ -24,7 +24,19 @@ class PostType(graphene_django.DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
+    post = graphene.Field(
+        PostType,
+        slug=graphene.String(
+            description=_("The unique slug identifying the post.")
+        )
+    )
     posts = graphene.List(PostType)
+
+    def resolve_post(self, info, slug=None, **kwargs):
+        return models.Post.objects.get(
+            published__lte=timezone.now(),
+            slug=slug,
+        )
 
     def resolve_posts(self, info, **kwargs):
         return models.Post.objects.filter(published__lte=timezone.now())
