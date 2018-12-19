@@ -1,0 +1,23 @@
+---
+language: python
+python: "3.6"
+
+cache: pip
+
+env:
+  global:
+    - DJANGO_SECRET_KEY=test
+
+install:
+  - pip install --upgrade pip
+  - pip install --upgrade pipenv
+  - pipenv sync --dev
+
+script:
+  - pipenv run flake8
+
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
