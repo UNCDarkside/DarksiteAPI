@@ -156,11 +156,37 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Media Files (User Uploaded)
+
+MEDIA_ROOT = os.getenv('DJANGO_MEDIA_ROOT')
+MEDIA_URL = '/media/'
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT')
 STATIC_URL = '/static/'
+
+
+# File Storage
+
+if os.getenv('DJANGO_SPACES_STORAGE', 'False').lower() == 'true':
+    DEFAULT_FILE_STORAGE = 'custom_storages.backends.MediaStorage'
+    STATICFILES_STORAGE = 'custom_storages.backends.StaticStorage'
+
+    AWS_ACCESS_KEY_ID = os.getenv('DJANGO_SPACES_ACCESS_KEY')
+    AWS_SECRET_ACCESS_KEY = os.getenv('DJANGO_SPACES_SECRET_KEY')
+
+    AWS_S3_REGION_NAME = os.getenv('DJANGO_SPACES_REGION')
+    AWS_S3_ENDPOINT_URL = (
+        f'https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com'
+    )
+    AWS_STORAGE_BUCKET_NAME = os.getenv('DJANGO_SPACES_BUCKET')
+
+    AWS_S3_CUSTOM_DOMAIN = os.getenv('DJANGO_SPACES_DOMAIN')
+    STATIC_URL = f'{AWS_S3_CUSTOM_DOMAIN}/'
+    MEDIA_URL = f'{AWS_S3_CUSTOM_DOMAIN}/'
 
 
 # CORS - The API should be accessible from anywhere

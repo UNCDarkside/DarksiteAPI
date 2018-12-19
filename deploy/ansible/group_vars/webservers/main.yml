@@ -31,6 +31,13 @@ django_env:
   DJANGO_DB_PORT: "{{ db_port }}"
   DJANGO_DB_USER: "{{ db_user }}"
 
+  DJANGO_SPACES_STORAGE: true
+  DJANGO_SPACES_ACCESS_KEY: "{{ vault_do_spaces_access_key }}"
+  DJANGO_SPACES_SECRET_KEY: "{{ vault_do_spaces_secret_key }}"
+  DJANGO_SPACES_REGION: sfo2
+  DJANGO_SPACES_BUCKET: uncdarkside
+  DJANGO_SPACES_DOMAIN: uncdarkside.sfo2.cdn.digitaloceanspaces.com
+
 app_config_directory: /etc/darksite-api
 app_config_env_vars: "{{ django_base_env | combine(django_env) }}"
 

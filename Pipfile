@@ -11,6 +11,8 @@ markdown = "*"
 graphene-django = "*"
 graphene = "*"
 django-cors-headers = "*"
+django-storages = "*"
+"boto3" = "*"
 
 [dev-packages]
 ipython = "*"

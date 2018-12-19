@@ -30,14 +30,6 @@ server {
     add_header X-Content-Type-Options nosniff;
     add_header X-XSS-Protection "1; mode=block";
 
-    location /media/ {
-        alias {{ django_media_root }}/;
-    }
-
-    location /static/ {
-        alias {{ django_static_root }}/;
-    }
-
     location / {
         include proxy_params;
         proxy_pass http://{{ nginx_proxy_socket }};

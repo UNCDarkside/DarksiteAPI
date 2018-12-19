@@ -1,18 +1,4 @@
 ---
-- name: Create Django media root
-  become: true
-  file:
-    mode: 0777
-    path: "{{ django_media_root }}"
-    state: directory
-
-- name: Create Django static root
-  become: true
-  file:
-    mode: 0777
-    path: "{{ django_static_root }}"
-    state: directory
-
 - name: Run migrations
   become: true
   environment: "{{ django_base_env | combine(django_env) }}"
