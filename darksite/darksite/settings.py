@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'graphene_django',
 
     'account',
-    'blog',
+    'cms',
+    'cms.blog',
 ]
 
 MIDDLEWARE = [

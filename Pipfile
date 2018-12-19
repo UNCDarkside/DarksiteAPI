@@ -13,6 +13,7 @@ graphene = "*"
 django-cors-headers = "*"
 django-storages = "*"
 "boto3" = "*"
+pillow = "*"
 
 [dev-packages]
 ipython = "*"
@@ -20,6 +21,7 @@ pytest = "*"
 pytest-django = "*"
 factory-boy = "*"
 "flake8" = "*"
+bumpversion = "*"
 
 [requires]
 python_version = "3.6"

@@ -33,6 +33,7 @@ __pycache__/
 
 # Django
 db.sqlite3
+darksite/media/
 
 # Local Settings
 .env

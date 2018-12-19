@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Post(models.Model):
     """
-    A single blog post.
+    A single cms.blog post.
     """
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
