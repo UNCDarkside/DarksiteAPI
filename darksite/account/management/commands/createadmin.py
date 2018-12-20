@@ -25,6 +25,7 @@ class Command(BaseCommand):
         qs = get_user_model().objects.filter(email=email)
         if qs.exists():
             user = qs.get()
+            user.is_active = True
             user.is_staff = True
             user.is_superuser = True
             user.name = 'Admin'
