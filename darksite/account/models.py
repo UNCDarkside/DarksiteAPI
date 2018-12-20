@@ -74,7 +74,7 @@ class User(PermissionsMixin, AbstractBaseUser):
             the user.
         """
         return (
-            f"User(email={repr(self.email)}, id={repr(self.id)},"
+            f"User(email={repr(self.email)}, id={repr(self.id)}, "
             f"is_active={self.is_active}, is_staff={self.is_staff}, "
             f"is_superuser={self.is_superuser}, name={repr(self.name)})"
         )
