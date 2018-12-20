@@ -24,11 +24,23 @@ class MediaResourceType(graphene_django.DjangoObjectType):
     """
     A media object with some additional descriptive information.
     """
+    # We have to redefine the field so it can be null.
+    image = graphene.String(
+        description=_(
+            "The URL of the image that the media resource points to."
+        ),
+    )
     type = graphene.String(
         description=_(
             'A string describing the type of media that the object '
             'encapsulates.'
         )
+    )
+    # We have to redefine the field so it can be null.
+    youtube_id = graphene.String(
+        description=_(
+            "The ID of the YouTube video that the media resource points to."
+        ),
     )
 
     class Meta:
@@ -50,6 +62,13 @@ class MediaResourceType(graphene_django.DjangoObjectType):
             return None
 
         return info.context.build_absolute_uri(instance.image.url)
+
+    @staticmethod
+    def resolve_youtube_id(instance, info):
+        if not instance.youtube_id:
+            return None
+
+        return instance.youtube_id
 
 
 class Query(graphene.ObjectType):
