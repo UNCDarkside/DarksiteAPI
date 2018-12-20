@@ -1,10 +1,16 @@
 import graphene
 
 import account.schema
-import blog.schema
+import cms.schema
+import cms.blog.schema
 
 
-class Query(account.schema.Query, blog.schema.Query, graphene.ObjectType):
+class Query(
+    account.schema.Query,
+    cms.schema.Query,
+    cms.blog.schema.Query,
+    graphene.ObjectType,
+):
     pass
 
 

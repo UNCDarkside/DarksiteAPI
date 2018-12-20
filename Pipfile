@@ -25,6 +25,7 @@ factory-boy = "*"
 bumpversion = "*"
 codecov = "*"
 coverage = "*"
+ipdb = "*"
 
 [requires]
 python_version = "3.6"

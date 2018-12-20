@@ -3,7 +3,7 @@ import graphene_django
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from blog import models
+from cms.blog import models
 
 
 class PostType(graphene_django.DjangoObjectType):
