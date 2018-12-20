@@ -14,6 +14,7 @@ django-cors-headers = "*"
 django-storages = "*"
 "boto3" = "*"
 pillow = "*"
+"django-admin-sortable2" = "*"
 
 [dev-packages]
 ipython = "*"
@@ -22,6 +23,8 @@ pytest-django = "*"
 factory-boy = "*"
 "flake8" = "*"
 bumpversion = "*"
+codecov = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.6"

@@ -37,3 +37,6 @@ darksite/media/
 
 # Local Settings
 .env
+
+# Coverage Reports
+.coverage

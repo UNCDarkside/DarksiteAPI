@@ -21,6 +21,64 @@ def get_media_resource_image_path(_, file):
     return f'cms/media-resources/images/{file}'
 
 
+class InfoPanel(models.Model):
+    """
+    A panel containing information about the team.
+    """
+    id = models.UUIDField(
+        default=uuid.uuid4,
+        help_text=_('A unique identifier for the panel.'),
+        primary_key=True,
+        verbose_name=_('ID'),
+    )
+    media = models.ForeignKey(
+        'cms.MediaResource',
+        blank=True,
+        help_text=_('The media to show in the panel.'),
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_('media resource'),
+    )
+    order = models.PositiveSmallIntegerField(
+        default=0,
+        help_text=_(
+            'An integer describing position of the panel in relation to '
+            'other panels.'
+        ),
+        verbose_name=_('order'),
+    )
+    text = models.TextField(
+        help_text=_('The text to display in the panel.'),
+        verbose_name=_('text'),
+    )
+    title = models.CharField(
+        help_text=_('The title of the panel.'),
+        max_length=100,
+        verbose_name=_('title'),
+    )
+
+    class Meta:
+        ordering = ('order',)
+        verbose_name = _('info panel')
+        verbose_name_plural = _('info panels')
+
+    def __repr__(self):
+        """
+        Returns:
+            A string containing the information required to reconstruct
+            the instance.
+        """
+        return f'InfoPanel(id={repr(self.id)}, title={repr(self.title)})'
+
+    def __str__(self):
+        """
+        Returns:
+            A user readable string describing the instance.
+        """
+        return self.title
+
+
 class MediaResource(models.Model):
     """
     A container for a single media object such as an image or video.

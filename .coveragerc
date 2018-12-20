@@ -1,0 +1,9 @@
+[run]
+branch = True
+omit = \
+       */test/*,
+       darksite/manage.py,
+       darksite/darksite/wsgi.py,
+       */migrations/*,
+       */admin.py
+source = darksite

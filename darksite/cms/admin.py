@@ -1,6 +1,18 @@
+from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 
 from cms import models
+
+
+@admin.register(models.InfoPanel)
+class InfoPanelAdmin(SortableAdminMixin, admin.ModelAdmin):
+    """
+    Admin for info panels.
+    """
+    fields = ('title', 'text', 'media')
+    list_display = ('order', 'title')
+    list_display_links = ('title',)
+    search_fields = ('title',)
 
 
 @admin.register(models.MediaResource)
