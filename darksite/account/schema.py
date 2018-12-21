@@ -23,11 +23,15 @@ class Query(graphene.ObjectType):
     )
 
     @staticmethod
-    def resolve_user(*_, **kwargs):
+    def resolve_user(*_, id=None, **kwargs):
         """
         Query for a specific user.
+
+        Args:
+            id:
+                The ID of the user to fetch.
 
         Returns:
             The user with the provided ID.
         """
-        return models.User.objects.get(id=kwargs.get('id'))
+        return models.User.objects.get(id=id)
