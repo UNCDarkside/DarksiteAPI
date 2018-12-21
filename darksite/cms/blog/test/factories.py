@@ -1,5 +1,4 @@
 import factory
-import pytest
 
 
 class PostFactory(factory.DjangoModelFactory):
@@ -32,12 +31,3 @@ class PostFactory(factory.DjangoModelFactory):
         instance.save()
 
         return instance
-
-
-@pytest.fixture
-def post_factory(db):
-    """
-    Returns:
-        The factory class used to create posts for testing.
-    """
-    return PostFactory

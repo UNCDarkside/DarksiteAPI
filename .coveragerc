@@ -1,6 +1,7 @@
 [run]
 branch = True
 omit = \
+       */functional_tests/*,
        */test/*,
        darksite/manage.py,
        darksite/darksite/wsgi.py,

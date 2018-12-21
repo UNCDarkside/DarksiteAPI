@@ -27,6 +27,7 @@ codecov = "*"
 coverage = "*"
 ipdb = "*"
 dj-inmemorystorage = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"

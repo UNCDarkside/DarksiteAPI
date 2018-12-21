@@ -1,5 +1,4 @@
 import factory
-import pytest
 
 
 class InfoPanelFactory(factory.DjangoModelFactory):
@@ -21,21 +20,3 @@ class MediaResourceFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = 'cms.MediaResource'
-
-
-@pytest.fixture
-def info_panel_factory(db):
-    """
-    Returns:
-        The factory class used to generate info panels for testing.
-    """
-    return InfoPanelFactory
-
-
-@pytest.fixture
-def media_resource_factory(db):
-    """
-    Returns:
-        The factory class used to generate media resources for testing.
-    """
-    return MediaResourceFactory

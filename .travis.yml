@@ -16,9 +16,11 @@ install:
 
 script:
   - pipenv run flake8
-  - pipenv run coverage run -m pytest darksite/
+  - COVERAGE_FILE=.coverage.unit pipenv run coverage run -m pytest darksite/
+  - COVERAGE_FILE=.coverage.functional pipenv run coverage run -m pytest darksite/functional_tests
 
 after_success:
+  - pipenv run coverage combine
   - pipenv run codecov
 
 

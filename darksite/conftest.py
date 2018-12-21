@@ -10,6 +10,9 @@ from PIL import Image
 from django.conf import settings
 from django.core.files.base import ContentFile
 
+from cms.blog.test.factories import PostFactory
+from cms.test.factories import InfoPanelFactory, MediaResourceFactory
+
 
 class UserFactory(factory.DjangoModelFactory):
     """
@@ -77,6 +80,33 @@ def image():
         content=out_stream.getvalue(),
         name='foo.png',
     )
+
+
+@pytest.fixture
+def info_panel_factory(db):
+    """
+    Returns:
+        The factory class used to generate info panels for testing.
+    """
+    return InfoPanelFactory
+
+
+@pytest.fixture
+def media_resource_factory(db):
+    """
+    Returns:
+        The factory class used to generate media resources for testing.
+    """
+    return MediaResourceFactory
+
+
+@pytest.fixture
+def post_factory(db):
+    """
+    Returns:
+        The factory class used to create posts for testing.
+    """
+    return PostFactory
 
 
 @pytest.fixture
