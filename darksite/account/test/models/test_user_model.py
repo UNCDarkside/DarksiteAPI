@@ -1,3 +1,5 @@
+import pytest
+
 from account import models
 
 
@@ -45,6 +47,24 @@ def test_create_user(db):
     assert not user.is_superuser
     assert user.name == name
     assert user.check_password(password)
+
+
+def test_get_by_natural_key(user_factory):
+    """
+    Test fetching a user by their natural key (email address).
+    """
+    user = user_factory()
+
+    assert models.User.objects.get_by_natural_key(user.email) == user
+
+
+def test_get_by_natural_key_missing(db):
+    """
+    If there is no user with the provided natural key, an exception
+    should be raised.
+    """
+    with pytest.raises(models.User.DoesNotExist):
+        models.User.objects.get_by_natural_key('missing@example.com')
 
 
 def test_repr(user_factory):
