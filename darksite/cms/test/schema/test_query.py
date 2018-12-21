@@ -5,12 +5,25 @@ import pytest
 from cms import schema, models
 
 
+def test_resolve_info_panels(info_panel_factory):
+    """
+    This field should resolve to a list of all info panels.
+    """
+    query = schema.Query()
+    info_panel_factory()
+    info_panel_factory()
+
+    result = query.resolve_info_panels()
+
+    assert list(result) == list(models.InfoPanel.objects.all())
+
+
 def test_resolve_media_resource(media_resource_factory):
     """
     Querying for a media resource by its id should return the resource.
     """
-    resource = media_resource_factory()
     query = schema.Query()
+    resource = media_resource_factory()
 
     assert query.resolve_media_resource(None, id=resource.id) == resource
 

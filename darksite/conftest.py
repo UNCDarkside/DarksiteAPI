@@ -1,11 +1,14 @@
 """
 Test fixtures used by all applications.
 """
+import io
 import os
 
 import factory
 import pytest
+from PIL import Image
 from django.conf import settings
+from django.core.files.base import ContentFile
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -56,6 +59,24 @@ def env():
 
     os.environ.clear()
     os.environ.update(original_env)
+
+
+@pytest.fixture
+def image():
+    """
+    Fixture to get an image suitable for an ``ImageField``.
+    Returns:
+        A ``ContentFile`` containing a simple image.
+    """
+    image = Image.new('RGB', (200, 200), 'red')
+
+    out_stream = io.BytesIO()
+    image.save(out_stream, format='png')
+
+    return ContentFile(
+        content=out_stream.getvalue(),
+        name='foo.png',
+    )
 
 
 @pytest.fixture

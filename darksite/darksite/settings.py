@@ -191,6 +191,12 @@ if os.getenv('DJANGO_SPACES_STORAGE', 'False').lower() == 'true':
     MEDIA_URL = f'{AWS_S3_CUSTOM_DOMAIN}/'
 
 
+# Allow for in-memory file storage
+
+if os.getenv('DJANGO_IN_MEMORY_FILES', 'False').lower() == 'true':
+    DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
+
+
 # CORS - The API should be accessible from anywhere
 
 CORS_ORIGIN_ALLOW_ALL = True

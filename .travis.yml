@@ -6,6 +6,7 @@ cache: pip
 
 env:
   global:
+    - DJANGO_IN_MEMORY_FILES=True
     - DJANGO_SECRET_KEY=test
 
 install:

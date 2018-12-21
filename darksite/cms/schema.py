@@ -58,13 +58,37 @@ class MediaResourceType(graphene_django.DjangoObjectType):
 
     @staticmethod
     def resolve_image(instance, info):
+        """
+        Resolve the media resource's image.
+
+        Args:
+            instance:
+                The instance to resolve the image of.
+            info:
+                Additional information used to resolve the request.
+
+        Returns:
+            The full URI of the resource's image if it has one and
+            ``None`` if it doesn't.
+        """
         if not instance.image:
             return None
 
         return info.context.build_absolute_uri(instance.image.url)
 
     @staticmethod
-    def resolve_youtube_id(instance, info):
+    def resolve_youtube_id(instance, *args, **kwargs):
+        """
+        Resolve the media resource's YouTube video ID.
+
+        Args:
+            instance:
+                The instance to resolve the YouTube video ID of.
+
+        Returns:
+            The ID of the resources YouTube video if it has one and
+            ``None`` otherwise.
+        """
         if not instance.youtube_id:
             return None
 
@@ -84,14 +108,16 @@ class Query(graphene.ObjectType):
         )
     )
 
-    def resolve_info_panels(self, info, **kwargs):
+    @staticmethod
+    def resolve_info_panels(*args, **kwargs):
         """
         Returns:
             All info panels in the database.
         """
         return models.InfoPanel.objects.all()
 
-    def resolve_media_resource(self, info, id=None, **kwargs):
+    @staticmethod
+    def resolve_media_resource(*args, id=None, **kwargs):
         """
         Returns:
             Returns the media resource with the specified ID.

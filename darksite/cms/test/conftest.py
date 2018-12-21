@@ -17,7 +17,7 @@ class MediaResourceFactory(factory.DjangoModelFactory):
     """
     Factory for generating ``MediaResource`` instances for testing.
     """
-    youtube_id = factory.Sequence(lambda n: str(n))
+    image = factory.django.ImageField()
 
     class Meta:
         model = 'cms.MediaResource'

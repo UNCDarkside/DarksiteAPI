@@ -26,6 +26,7 @@ bumpversion = "*"
 codecov = "*"
 coverage = "*"
 ipdb = "*"
+dj-inmemorystorage = "*"
 
 [requires]
 python_version = "3.6"
