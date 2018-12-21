@@ -1,5 +1,7 @@
+import datetime
 from unittest import mock
 
+from django.utils import timezone
 from django.utils.text import slugify
 
 from cms.blog import models
@@ -30,6 +32,19 @@ def test_clean_with_slug():
     post.clean()
 
     assert post.slug == slug
+
+
+def test_ordering(post_factory):
+    """
+    Posts should be ordered by publish time.
+    """
+    now = timezone.now()
+
+    p1 = post_factory(published=now - datetime.timedelta(hours=1))
+    p2 = post_factory(published=now + datetime.timedelta(hours=1))
+    p3 = post_factory(published=now)
+
+    assert list(models.Post.objects.all()) == [p2, p3, p1]
 
 
 @mock.patch(

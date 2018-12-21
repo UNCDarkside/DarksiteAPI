@@ -7,6 +7,9 @@ from cms.blog import models
 
 
 class PostType(graphene_django.DjangoObjectType):
+    """
+    A blog post.
+    """
     rendered = graphene.String(
         description=_("The rendered HTML of the post's Markdown content."),
     )
@@ -26,17 +29,39 @@ class PostType(graphene_django.DjangoObjectType):
 class Query(graphene.ObjectType):
     post = graphene.Field(
         PostType,
+        description=_('Query for a specific post.'),
         slug=graphene.String(
             description=_("The unique slug identifying the post.")
         )
     )
-    posts = graphene.List(PostType)
+    posts = graphene.List(
+        PostType,
+        description=_('Query for a list of posts.'),
+    )
 
-    def resolve_post(self, info, slug=None, **kwargs):
+    @staticmethod
+    def resolve_post(*args, slug=None, **kwargs):
+        """
+        Resolve a single blog post.
+
+        Args:
+            slug:
+                The slug of the post to retrieve.
+
+        Returns:
+            The post with the given slug if it has been published.
+        """
         return models.Post.objects.get(
             published__lte=timezone.now(),
             slug=slug,
         )
 
-    def resolve_posts(self, info, **kwargs):
+    @staticmethod
+    def resolve_posts(*args, **kwargs):
+        """
+        Resolve the list of published blog posts.
+
+        Returns:
+            A queryset of the blog posts that have been published.
+        """
         return models.Post.objects.filter(published__lte=timezone.now())
