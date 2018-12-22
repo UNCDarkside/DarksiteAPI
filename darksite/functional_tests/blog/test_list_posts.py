@@ -2,6 +2,7 @@ import requests
 
 from cms.blog import models
 
+
 POST_LIST_QUERY = '''
 query {
   posts {
