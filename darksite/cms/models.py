@@ -1,7 +1,10 @@
+import string
 import uuid
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.crypto import get_random_string
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _, ugettext
 
 
@@ -19,6 +22,77 @@ def get_media_resource_image_path(_, file):
         The path that the media resource should be uploaded to.
     """
     return f'cms/media-resources/images/{file}'
+
+
+class Album(models.Model):
+    """
+    A collection of :class:`.MediaResource` instances.
+    """
+    created = models.DateTimeField(
+        auto_now_add=True,
+        help_text=_('The time the album was created at.'),
+        verbose_name=_('creation time'),
+    )
+    description = models.TextField(
+        blank=True,
+        help_text=_('A description of the album.'),
+        verbose_name=_('description'),
+    )
+    media_resources = models.ManyToManyField(
+        'cms.MediaResource',
+        blank=True,
+        help_text=_('The media resources contained in the album.'),
+        related_name='albums',
+        related_query_name='album',
+        verbose_name=_('media resources'),
+    )
+    slug = models.SlugField(
+        help_text=_('A unique slug identifying the album.'),
+        unique=True,
+        verbose_name=_('slug'),
+    )
+    title = models.CharField(
+        help_text=_('The title of the album.'),
+        max_length=100,
+        verbose_name=_('title'),
+    )
+
+    class Meta:
+        ordering = ('-created',)
+        verbose_name = _('album')
+        verbose_name_plural = _('albums')
+
+    def __repr__(self):
+        """
+        Returns:
+            A string representation of the instance that can be used to
+            reconstruct it.
+        """
+        return (
+            f'Album(created={repr(self.created)}, slug={repr(self.slug)}, '
+            f'title={repr(self.title)})'
+        )
+
+    def __str__(self):
+        """
+        Returns:
+            A user readable string describing the instance.
+        """
+        return self.title
+
+    def clean(self):
+        """
+        Generate a slug for the album if it does not have one.
+        """
+        super().clean()
+
+        if not self.slug:
+            suffix = get_random_string(
+                length=10,
+                allowed_chars=string.ascii_lowercase + string.digits,
+            )
+
+            self.slug = f'{slugify(self.title)}-{suffix}'
 
 
 class InfoPanel(models.Model):

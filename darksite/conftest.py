@@ -11,7 +11,11 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 
 from cms.blog.test.factories import PostFactory
-from cms.test.factories import InfoPanelFactory, MediaResourceFactory
+from cms.test.factories import (
+    AlbumFactory,
+    InfoPanelFactory,
+    MediaResourceFactory,
+)
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -44,6 +48,15 @@ class UserFactory(factory.DjangoModelFactory):
         manager = cls._get_manager(model_class)
 
         return manager.create_user(*args, **kwargs)
+
+
+@pytest.fixture
+def album_factory(db):
+    """
+    Returns:
+        The factory class used to create albums for testing.
+    """
+    return AlbumFactory
 
 
 @pytest.fixture

@@ -5,6 +5,39 @@ import graphene
 from cms import models
 
 
+class AlbumSummaryType(graphene_django.DjangoObjectType):
+    """
+    A summary of an album, which is a collection of media resources. The
+    summary only allows for fetching infnformation about an album rather
+    than the media resources within them.
+    """
+
+    class Meta:
+        only_fields = (
+            'created',
+            'description',
+            'slug',
+            'title',
+        )
+        model = models.Album
+
+
+class AlbumType(graphene_django.DjangoObjectType):
+    """
+    An album, which is a collection of media resources.
+    """
+
+    class Meta:
+        only_fields = (
+            'created',
+            'description',
+            'media_resources',
+            'slug',
+            'title',
+        )
+        model = models.Album
+
+
 class InfoPanelType(graphene_django.DjangoObjectType):
     """
     A panel with a heading, text, and a media resource.
@@ -96,6 +129,17 @@ class MediaResourceType(graphene_django.DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
+    album = graphene.Field(
+        AlbumType,
+        description=_('Get a specific album.'),
+        slug=graphene.String(
+            description=_('The unique slug identifying the album to fetch.'),
+        ),
+    )
+    albums = graphene.List(
+        AlbumSummaryType,
+        description=_('Get a list of all albums.'),
+    )
     info_panels = graphene.List(
         InfoPanelType,
         description=_('Get a list of all information panels.'),
@@ -107,6 +151,28 @@ class Query(graphene.ObjectType):
             description=_('The ID of a media resource.')
         )
     )
+
+    @staticmethod
+    def resolve_album(*args, slug=None, **kwargs):
+        """
+        Get a specific album.
+
+        Args:
+            slug:
+                The slug of the album to fetch.
+
+        Returns:
+            The album with the provided slug.
+        """
+        return models.Album.objects.get(slug=slug)
+
+    @staticmethod
+    def resolve_albums(*args, **kwargs):
+        """
+        Returns:
+            All the albums in the database.
+        """
+        return models.Album.objects.all()
 
     @staticmethod
     def resolve_info_panels(*args, **kwargs):

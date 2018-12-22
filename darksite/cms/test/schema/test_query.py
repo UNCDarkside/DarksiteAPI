@@ -5,6 +5,29 @@ import pytest
 from cms import schema, models
 
 
+def test_resolve_album(album_factory):
+    """
+    Querying for an album by its slug should return the album.
+    """
+    query = schema.Query()
+    album = album_factory()
+
+    assert query.resolve_album(None, slug=album.slug) == album
+
+
+def test_resolve_albums(album_factory):
+    """
+    This field should resolve to a list of all albums.
+    """
+    query = schema.Query()
+    album_factory()
+    album_factory()
+
+    result = query.resolve_albums(None)
+
+    assert list(result) == list(models.Album.objects.all())
+
+
 def test_resolve_info_panels(info_panel_factory):
     """
     This field should resolve to a list of all info panels.
