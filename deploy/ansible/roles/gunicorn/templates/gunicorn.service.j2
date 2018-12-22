@@ -15,6 +15,9 @@ ExecStart={{ gunicorn_venv }}/bin/gunicorn --pid /run/gunicorn/pid   \
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 PrivateTmp=true
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{ gunicorn_syslog_identifier }}
 
 [Install]
 WantedBy=multi-user.target

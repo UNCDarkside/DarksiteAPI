@@ -20,3 +20,9 @@
     name: gunicorn.socket
     state: restarted
   listen: reload gunicorn
+
+- name: restart syslog
+  become: true
+  service:
+    name: rsyslog
+    state: restarted

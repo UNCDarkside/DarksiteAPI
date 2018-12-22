@@ -4,8 +4,25 @@
     name: gunicorn
     virtualenv: "{{ gunicorn_venv }}"
 
+- name: Create log file directory
+  become: true
+  file:
+    mode: 0777
+    owner: root
+    path: "{{ gunicorn_syslog_file | dirname }}"
+    state: directory
+
+- name: Upload syslog configuration for gunicorn
+  become: true
+  template:
+    src: syslog.conf.j2
+    dest: "{{ gunicorn_syslog_conf }}"
+    owner: root
+    mode: 0644
+  notify: restart syslog
+
 - name: Upload gunicorn service configuration
-  become: yes
+  become: true
   template:
     src: gunicorn.service.j2
     dest: "{{ gunicorn_service_conf }}"
@@ -16,7 +33,7 @@
   - reload gunicorn
 
 - name: Upload gunicorn socket configuration
-  become: yes
+  become: true
   template:
     src: gunicorn.socket.j2
     dest: "{{ gunicorn_socket_conf }}"
@@ -27,7 +44,7 @@
   - reload gunicorn
 
 - name: Upload gunicorn tempfile configuration
-  become: yes
+  become: true
   template:
     src: tempfiles.conf.j2
     dest: "{{ gunicorn_tempfile_conf }}"
@@ -37,7 +54,7 @@
   - reload gunicorn
 
 - name: Start and enable gunicorn
-  become: yes
+  become: true
   service:
     name: gunicorn.socket
     enabled: yes

@@ -38,22 +38,28 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
 
+THIRD_PARTY_APPS = [
     'adminsortable2',
     'corsheaders',
     'graphene_django',
+]
 
+CUSTOM_APPS = [
     'account',
     'cms',
     'cms.blog',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -207,3 +213,52 @@ CORS_ORIGIN_ALLOW_ALL = True
 GRAPHENE = {
     'SCHEMA': 'darksite.schema.schema',
 }
+
+
+# Logging Configuration
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+            'format': '[%(asctime)s] %(levelname)8s [%(name)s:%(lineno)s] %(message)s',  # noqa
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+        'null': {
+            'class': 'logging.NullHandler',
+            'level': 'DEBUG',
+        },
+    },
+    'loggers': {
+        # Root Handler
+        '': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+        },
+
+        # Customized Handlers
+        'django.request': {
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    }
+}
+
+# We want more logging for our custom apps
+for app in CUSTOM_APPS:
+    LOGGING['loggers'][app] = {
+        'handlers': ['console'],
+        'level': 'INFO',
+        'propagate': False,
+    }
