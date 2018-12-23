@@ -1,5 +1,17 @@
 import factory
 
+from test_utils import CleanAndSaveFactoryMixin
+
+
+class AlbumFactory(CleanAndSaveFactoryMixin, factory.DjangoModelFactory):
+    """
+    Factory for generating ``Album`` instances for testing.
+    """
+    title = factory.Sequence(lambda n: f'Album {n}')
+
+    class Meta:
+        model = 'cms.Album'
+
 
 class InfoPanelFactory(factory.DjangoModelFactory):
     """

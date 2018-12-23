@@ -4,6 +4,19 @@ from django.contrib import admin
 from cms import models
 
 
+@admin.register(models.Album)
+class AlbumAdmin(admin.ModelAdmin):
+    """
+    Admin for albums of media resources.
+    """
+    date_hierarchy = 'created'
+    fields = ('title', 'slug', 'description', 'media_resources')
+    filter_horizontal = ('media_resources',)
+    list_display = ('title', 'created')
+    readonly_fields = ('slug',)
+    search_fields = ('title',)
+
+
 @admin.register(models.InfoPanel)
 class InfoPanelAdmin(SortableAdminMixin, admin.ModelAdmin):
     """
