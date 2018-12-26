@@ -3,9 +3,10 @@ import graphene
 import account.schema
 import cms.schema
 import cms.blog.schema
+import teams.schema
 
 
-class Mutation(account.schema.Mutations):
+class Mutation(account.schema.Mutations, teams.schema.Mutations):
     pass
 
 

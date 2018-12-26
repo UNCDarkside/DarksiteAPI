@@ -24,8 +24,10 @@ def assert_has_error(response, message, path=None):
             return
 
     assert False, (
-        'No message found with the criteria: {}'
-    ).format(criteria)
+        'No message found for the provided criteria:\n'
+        '        Criteria: {criteria}\n'
+        '  Error Messages: {errors}'
+    ).format(criteria=criteria, errors=response['errors'])
 
 
 def _error_matches_criteria(error, criteria):

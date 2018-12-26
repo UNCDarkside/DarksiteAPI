@@ -16,6 +16,7 @@ from cms.test.factories import (
     InfoPanelFactory,
     MediaResourceFactory,
 )
+from teams.test.factories import TeamFactory
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -120,6 +121,15 @@ def post_factory(db):
         The factory class used to create posts for testing.
     """
     return PostFactory
+
+
+@pytest.fixture
+def team_factory(db):
+    """
+    Returns:
+        The factory class used to create teams for testing.
+    """
+    return TeamFactory
 
 
 @pytest.fixture
