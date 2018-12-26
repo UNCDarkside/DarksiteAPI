@@ -15,7 +15,7 @@ def assert_has_error(response, message, path=None):
     if path is not None:
         criteria.append(('path', path))
 
-    assert len(response['errors']) > 0, (
+    assert len(response.get('errors', [])) > 0, (
         'The response has no errors.'
     )
 

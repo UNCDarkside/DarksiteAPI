@@ -5,6 +5,10 @@ import cms.schema
 import cms.blog.schema
 
 
+class Mutation(account.schema.Mutations):
+    pass
+
+
 class Query(
     account.schema.Query,
     cms.schema.Query,
@@ -14,4 +18,4 @@ class Query(
     pass
 
 
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(mutation=Mutation, query=Query)
