@@ -40,3 +40,6 @@ darksite/media/
 
 # Coverage Reports
 .coverage
+
+# Built Documentation
+docs/_build

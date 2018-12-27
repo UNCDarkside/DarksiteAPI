@@ -28,6 +28,9 @@ coverage = "*"
 ipdb = "*"
 dj-inmemorystorage = "*"
 requests = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
+sphinx-autobuild = "*"
 
 [requires]
 python_version = "3.6"
