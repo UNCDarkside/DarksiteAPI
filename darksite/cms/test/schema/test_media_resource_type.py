@@ -33,7 +33,7 @@ def test_resolve_image_with_image(image, rf):
     URL of the media resource's image.
     """
     resource = models.MediaResource(image=image)
-    request = rf.get('/')
+    request = rf.get("/")
     info = DummyInfo(request)
 
     expected = request.build_absolute_uri(resource.image.url)
@@ -55,7 +55,7 @@ def test_resolve_youtube_id_with_id():
     """
     If the media resource has a YouTube video ID, it should be returned.
     """
-    resource = models.MediaResource(youtube_id='dQw4w9WgXcQ')
+    resource = models.MediaResource(youtube_id="dQw4w9WgXcQ")
     result = schema.MediaResourceType.resolve_youtube_id(resource, None)
 
     assert result == resource.youtube_id

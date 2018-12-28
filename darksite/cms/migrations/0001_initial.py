@@ -9,25 +9,78 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='MediaResource',
+            name="MediaResource",
             fields=[
-                ('caption', models.TextField(blank=True, help_text='A caption for the resource.', verbose_name='caption')),
-                ('created', models.DateTimeField(auto_now_add=True, help_text='The time that the resource was created at.', verbose_name='creation time')),
-                ('id', models.UUIDField(default=uuid.uuid4, help_text='A unique identifier for the media resource.', primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_listed', models.BooleanField(default=True, help_text='Designates if the resource is listed publicly. Unlisted images can still be accessed by anyone with the ID of the resource.', verbose_name='listed')),
-                ('image', models.ImageField(blank=True, help_text='The image that the media resource encapsulates.', upload_to=cms.models.get_media_resource_image_path, verbose_name='image')),
-                ('title', models.CharField(blank=True, help_text='A title for the resource.', max_length=100, verbose_name='title')),
-                ('youtube_id', models.CharField(blank=True, help_text='The ID of the YouTube video the resource encapsulates.', max_length=32, verbose_name='YouTube ID')),
+                (
+                    "caption",
+                    models.TextField(
+                        blank=True,
+                        help_text="A caption for the resource.",
+                        verbose_name="caption",
+                    ),
+                ),
+                (
+                    "created",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        help_text="The time that the resource was created at.",
+                        verbose_name="creation time",
+                    ),
+                ),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        help_text="A unique identifier for the media resource.",
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "is_listed",
+                    models.BooleanField(
+                        default=True,
+                        help_text="Designates if the resource is listed publicly. Unlisted images can still be accessed by anyone with the ID of the resource.",
+                        verbose_name="listed",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True,
+                        help_text="The image that the media resource encapsulates.",
+                        upload_to=cms.models.get_media_resource_image_path,
+                        verbose_name="image",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        blank=True,
+                        help_text="A title for the resource.",
+                        max_length=100,
+                        verbose_name="title",
+                    ),
+                ),
+                (
+                    "youtube_id",
+                    models.CharField(
+                        blank=True,
+                        help_text="The ID of the YouTube video the resource encapsulates.",
+                        max_length=32,
+                        verbose_name="YouTube ID",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'media resource',
-                'verbose_name_plural': 'media resources',
-                'ordering': ('created',),
+                "verbose_name": "media resource",
+                "verbose_name_plural": "media resources",
+                "ordering": ("created",),
             },
-        ),
+        )
     ]

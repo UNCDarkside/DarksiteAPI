@@ -16,7 +16,7 @@ class TeamType(graphene_django.DjangoObjectType):
     """
 
     class Meta:
-        only_fields = ('year',)
+        only_fields = ("year",)
         model = models.Team
 
 
@@ -24,14 +24,12 @@ class CreateTeam(graphene.Mutation):
     """
     Mutation to create a new team for a specific year.
     """
-    team = graphene.Field(
-        TeamType,
-        description=_('The newly created team.'),
-    )
+
+    team = graphene.Field(TeamType, description=_("The newly created team."))
 
     class Arguments:
         year = graphene.Int(
-            description=_('The year that the team had their regular season.'),
+            description=_("The year that the team had their regular season."),
             required=True,
         )
 
@@ -50,16 +48,16 @@ class CreateTeam(graphene.Mutation):
         """
         if not info.context.user.is_staff:
             logger.info(
-                'Denied non-staff user from creating a team: %r',
+                "Denied non-staff user from creating a team: %r",
                 info.context.user,
             )
             raise Exception(
-                ugettext("You do not have permission to create a team."),
+                ugettext("You do not have permission to create a team.")
             )
 
         if models.Team.objects.filter(year=year).exists():
             logger.info(
-                'Prohibited creation of a duplicate team for the year %d.',
+                "Prohibited creation of a duplicate team for the year %d.",
                 year,
             )
             raise Exception(
@@ -69,7 +67,7 @@ class CreateTeam(graphene.Mutation):
             )
 
         team = models.Team.objects.create(year=year)
-        logger.info('Created team %r', team)
+        logger.info("Created team %r", team)
 
         return CreateTeam(team=team)
 
@@ -77,7 +75,7 @@ class CreateTeam(graphene.Mutation):
 class Mutations(graphene.ObjectType):
     create_team = CreateTeam.Field(
         description=_(
-            'Create a new team for a specific year. Only staff users are '
-            'allowed to create a new team.'
-        ),
+            "Create a new team for a specific year. Only staff users are "
+            "allowed to create a new team."
+        )
     )

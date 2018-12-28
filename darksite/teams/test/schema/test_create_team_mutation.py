@@ -16,7 +16,7 @@ def test_mutate(rf, user_factory):
     mutation = schema.CreateTeam()
 
     user = user_factory(is_staff=True)
-    request = rf.post('/')
+    request = rf.post("/")
     request.user = user
     year = 2018
 
@@ -34,7 +34,7 @@ def test_mutate_non_staff(rf, user_factory):
     mutation = schema.CreateTeam()
 
     user = user_factory()
-    request = rf.post('/')
+    request = rf.post("/")
     request.user = user
 
     with pytest.raises(Exception):
@@ -51,7 +51,7 @@ def test_mutate_non_unique(rf, team_factory, user_factory):
     mutation = schema.CreateTeam()
 
     user = user_factory(is_staff=True)
-    request = rf.post('/')
+    request = rf.post("/")
     request.user = user
 
     year = 2018

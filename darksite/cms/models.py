@@ -21,46 +21,47 @@ def get_media_resource_image_path(_, file):
     Returns:
         The path that the media resource should be uploaded to.
     """
-    return f'cms/media-resources/images/{file}'
+    return f"cms/media-resources/images/{file}"
 
 
 class Album(models.Model):
     """
     A collection of :class:`.MediaResource` instances.
     """
+
     created = models.DateTimeField(
         auto_now_add=True,
-        help_text=_('The time the album was created at.'),
-        verbose_name=_('creation time'),
+        help_text=_("The time the album was created at."),
+        verbose_name=_("creation time"),
     )
     description = models.TextField(
         blank=True,
-        help_text=_('A description of the album.'),
-        verbose_name=_('description'),
+        help_text=_("A description of the album."),
+        verbose_name=_("description"),
     )
     media_resources = models.ManyToManyField(
-        'cms.MediaResource',
+        "cms.MediaResource",
         blank=True,
-        help_text=_('The media resources contained in the album.'),
-        related_name='albums',
-        related_query_name='album',
-        verbose_name=_('media resources'),
+        help_text=_("The media resources contained in the album."),
+        related_name="albums",
+        related_query_name="album",
+        verbose_name=_("media resources"),
     )
     slug = models.SlugField(
-        help_text=_('A unique slug identifying the album.'),
+        help_text=_("A unique slug identifying the album."),
         unique=True,
-        verbose_name=_('slug'),
+        verbose_name=_("slug"),
     )
     title = models.CharField(
-        help_text=_('The title of the album.'),
+        help_text=_("The title of the album."),
         max_length=100,
-        verbose_name=_('title'),
+        verbose_name=_("title"),
     )
 
     class Meta:
-        ordering = ('-created',)
-        verbose_name = _('album')
-        verbose_name_plural = _('albums')
+        ordering = ("-created",)
+        verbose_name = _("album")
+        verbose_name_plural = _("albums")
 
     def __repr__(self):
         """
@@ -69,8 +70,8 @@ class Album(models.Model):
             reconstruct it.
         """
         return (
-            f'Album(created={repr(self.created)}, slug={repr(self.slug)}, '
-            f'title={repr(self.title)})'
+            f"Album(created={repr(self.created)}, slug={repr(self.slug)}, "
+            f"title={repr(self.title)})"
         )
 
     def __str__(self):
@@ -88,54 +89,54 @@ class Album(models.Model):
 
         if not self.slug:
             suffix = get_random_string(
-                length=10,
-                allowed_chars=string.ascii_lowercase + string.digits,
+                length=10, allowed_chars=string.ascii_lowercase + string.digits
             )
 
-            self.slug = f'{slugify(self.title)}-{suffix}'
+            self.slug = f"{slugify(self.title)}-{suffix}"
 
 
 class InfoPanel(models.Model):
     """
     A panel containing information about the team.
     """
+
     id = models.UUIDField(
         default=uuid.uuid4,
-        help_text=_('A unique identifier for the panel.'),
+        help_text=_("A unique identifier for the panel."),
         primary_key=True,
-        verbose_name=_('ID'),
+        verbose_name=_("ID"),
     )
     media = models.ForeignKey(
-        'cms.MediaResource',
+        "cms.MediaResource",
         blank=True,
-        help_text=_('The media to show in the panel.'),
+        help_text=_("The media to show in the panel."),
         null=True,
         on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_('media resource'),
+        related_name="+",
+        verbose_name=_("media resource"),
     )
     order = models.PositiveSmallIntegerField(
         default=0,
         help_text=_(
-            'An integer describing position of the panel in relation to '
-            'other panels.'
+            "An integer describing position of the panel in relation to "
+            "other panels."
         ),
-        verbose_name=_('order'),
+        verbose_name=_("order"),
     )
     text = models.TextField(
-        help_text=_('The text to display in the panel.'),
-        verbose_name=_('text'),
+        help_text=_("The text to display in the panel."),
+        verbose_name=_("text"),
     )
     title = models.CharField(
-        help_text=_('The title of the panel.'),
+        help_text=_("The title of the panel."),
         max_length=100,
-        verbose_name=_('title'),
+        verbose_name=_("title"),
     )
 
     class Meta:
-        ordering = ('order',)
-        verbose_name = _('info panel')
-        verbose_name_plural = _('info panels')
+        ordering = ("order",)
+        verbose_name = _("info panel")
+        verbose_name_plural = _("info panels")
 
     def __repr__(self):
         """
@@ -143,7 +144,7 @@ class InfoPanel(models.Model):
             A string containing the information required to reconstruct
             the instance.
         """
-        return f'InfoPanel(id={repr(self.id)}, title={repr(self.title)})'
+        return f"InfoPanel(id={repr(self.id)}, title={repr(self.title)})"
 
     def __str__(self):
         """
@@ -157,56 +158,57 @@ class MediaResource(models.Model):
     """
     A container for a single media object such as an image or video.
     """
-    TYPE_IMAGE = 'image'
-    TYPE_YOUTUBE = 'youtube'
+
+    TYPE_IMAGE = "image"
+    TYPE_YOUTUBE = "youtube"
 
     caption = models.TextField(
         blank=True,
-        help_text=_('A caption for the resource.'),
-        verbose_name=_('caption'),
+        help_text=_("A caption for the resource."),
+        verbose_name=_("caption"),
     )
     created = models.DateTimeField(
         auto_now_add=True,
-        help_text=_('The time that the resource was created at.'),
-        verbose_name=_('creation time'),
+        help_text=_("The time that the resource was created at."),
+        verbose_name=_("creation time"),
     )
     id = models.UUIDField(
         default=uuid.uuid4,
-        help_text=_('A unique identifier for the media resource.'),
+        help_text=_("A unique identifier for the media resource."),
         primary_key=True,
-        verbose_name=_('ID'),
+        verbose_name=_("ID"),
     )
     is_listed = models.BooleanField(
         default=True,
         help_text=_(
-            'Designates if the resource is listed publicly. Unlisted images '
-            'can still be accessed by anyone with the ID of the resource.'
+            "Designates if the resource is listed publicly. Unlisted images "
+            "can still be accessed by anyone with the ID of the resource."
         ),
-        verbose_name=_('listed'),
+        verbose_name=_("listed"),
     )
     image = models.ImageField(
         blank=True,
-        help_text=_('The image that the media resource encapsulates.'),
+        help_text=_("The image that the media resource encapsulates."),
         upload_to=get_media_resource_image_path,
-        verbose_name=_('image'),
+        verbose_name=_("image"),
     )
     title = models.CharField(
         blank=True,
-        help_text=_('A title for the resource.'),
+        help_text=_("A title for the resource."),
         max_length=100,
-        verbose_name=_('title'),
+        verbose_name=_("title"),
     )
     youtube_id = models.CharField(
         blank=True,
-        help_text=_('The ID of the YouTube video the resource encapsulates.'),
+        help_text=_("The ID of the YouTube video the resource encapsulates."),
         max_length=32,
-        verbose_name=_('YouTube ID'),
+        verbose_name=_("YouTube ID"),
     )
 
     class Meta:
-        ordering = ('created',)
-        verbose_name = _('media resource')
-        verbose_name_plural = _('media resources')
+        ordering = ("created",)
+        verbose_name = _("media resource")
+        verbose_name_plural = _("media resources")
 
     def __str__(self):
         """
@@ -216,7 +218,7 @@ class MediaResource(models.Model):
         ret_str = str(self.id)
 
         if self.title:
-            ret_str += f' ({self.title})'
+            ret_str += f" ({self.title})"
 
         return ret_str
 
@@ -229,15 +231,15 @@ class MediaResource(models.Model):
         if self.image and self.youtube_id:
             raise ValidationError(
                 ugettext(
-                    'A media resource may not contain both an image and a '
-                    'YouTube video.'
+                    "A media resource may not contain both an image and a "
+                    "YouTube video."
                 )
             )
 
         if not self.image and not self.youtube_id:
             raise ValidationError(
                 ugettext(
-                    'A media resource must contain an image or YouTube video.'
+                    "A media resource must contain an image or YouTube video."
                 )
             )
 

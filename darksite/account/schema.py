@@ -15,8 +15,9 @@ class UserType(graphene_django.DjangoObjectType):
     """
     A user of the site.
     """
+
     class Meta:
-        only_fields = ('id', 'name')
+        only_fields = ("id", "name")
         model = models.User
 
 
@@ -24,13 +25,14 @@ class LogIn(graphene.Mutation):
     """
     Mutation to log in.
     """
+
     user = graphene.Field(type=UserType)
 
     class Arguments:
         email = graphene.String(
-            description=_('The email address of the user to log in as.'),
+            description=_("The email address of the user to log in as.")
         )
-        password = graphene.String(description=_('The password of the user.'))
+        password = graphene.String(description=_("The password of the user."))
 
     def mutate(self, info, email=None, password=None):
         """
@@ -47,27 +49,23 @@ class LogIn(graphene.Mutation):
         user = authenticate(password=password, username=email)
         if user is None:
             raise Exception(
-                ugettext(
-                    "No user with the provided email/password was found."
-                )
+                ugettext("No user with the provided email/password was found.")
             )
 
         login(info.context, user)
-        logger.info('Logged in %r', user)
+        logger.info("Logged in %r", user)
 
         return LogIn(user=user)
 
 
 class Mutations(graphene.ObjectType):
-    log_in = LogIn.Field(description=_('Log in as a user.'))
+    log_in = LogIn.Field(description=_("Log in as a user."))
 
 
 class Query(graphene.ObjectType):
     user = graphene.Field(
         UserType,
-        id=graphene.UUID(
-            description=_('A unique identifier for the user.')
-        ),
+        id=graphene.UUID(description=_("A unique identifier for the user.")),
     )
 
     @staticmethod

@@ -19,8 +19,8 @@ class Command(BaseCommand):
         """
         Execute the command.
         """
-        email = os.environ['ADMIN_EMAIL']
-        password = os.environ['ADMIN_PASSWORD']
+        email = os.environ["ADMIN_EMAIL"]
+        password = os.environ["ADMIN_PASSWORD"]
 
         qs = get_user_model().objects.filter(email=email)
         if qs.exists():
@@ -28,24 +28,20 @@ class Command(BaseCommand):
             user.is_active = True
             user.is_staff = True
             user.is_superuser = True
-            user.name = 'Admin'
+            user.name = "Admin"
             user.set_password(password)
             user.save()
 
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Updated account '{email}' to have admin privileges.",
-                ),
+                    f"Updated account '{email}' to have admin privileges."
+                )
             )
         else:
             get_user_model().objects.create_superuser(
-                email=email,
-                name='Admin',
-                password=password,
+                email=email, name="Admin", password=password
             )
 
             self.stdout.write(
-                self.style.SUCCESS(
-                    f"Created admin account '{email}'.",
-                ),
+                self.style.SUCCESS(f"Created admin account '{email}'.")
             )

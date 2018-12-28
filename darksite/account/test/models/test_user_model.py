@@ -7,14 +7,12 @@ def test_create_superuser(db):
     """
     Test using the manager to create a superuser.
     """
-    email = 'admin@example.com'
-    name = 'Admin'
-    password = 'password'
+    email = "admin@example.com"
+    name = "Admin"
+    password = "password"
 
     models.User.objects.create_superuser(
-        email=email,
-        name=name,
-        password=password,
+        email=email, name=name, password=password
     )
     user = models.User.objects.get()
 
@@ -30,15 +28,11 @@ def test_create_user(db):
     """
     Test using the manager to create a new user.
     """
-    email = 'john@example.com'
-    name = 'John Smith'
-    password = 'password'
+    email = "john@example.com"
+    name = "John Smith"
+    password = "password"
 
-    models.User.objects.create_user(
-        email=email,
-        name=name,
-        password=password,
-    )
+    models.User.objects.create_user(email=email, name=name, password=password)
     user = models.User.objects.get()
 
     assert user.email == email
@@ -64,7 +58,7 @@ def test_get_by_natural_key_missing(db):
     should be raised.
     """
     with pytest.raises(models.User.DoesNotExist):
-        models.User.objects.get_by_natural_key('missing@example.com')
+        models.User.objects.get_by_natural_key("missing@example.com")
 
 
 def test_repr(user_factory):
@@ -87,6 +81,6 @@ def test_str():
     The string representation of a user should include their name and
     email address.
     """
-    user = models.User(email='john@example.com', name='John Smith')
+    user = models.User(email="john@example.com", name="John Smith")
 
-    assert str(user) == f'{user.name} ({user.email})'
+    assert str(user) == f"{user.name} ({user.email})"

@@ -10,26 +10,78 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
+    dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
 
     operations = [
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField(blank=True, help_text='The Markdown content of the post.', verbose_name='content')),
-                ('published', models.DateTimeField(default=django.utils.timezone.now, help_text='The time that the post should be published.', verbose_name='publish time')),
-                ('slug', models.SlugField(help_text='A unique slug identifying the post.', unique=True, verbose_name='slug')),
-                ('title', models.CharField(help_text='The title of the post.', max_length=100, verbose_name='title')),
-                ('updated', models.DateTimeField(auto_now=True, help_text='The last time the post was updated.', verbose_name='update time')),
-                ('author', models.ForeignKey(help_text='The user who wrote the post.', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='blog_posts', related_query_name='blog_post', to=settings.AUTH_USER_MODEL, verbose_name='author')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "content",
+                    models.TextField(
+                        blank=True,
+                        help_text="The Markdown content of the post.",
+                        verbose_name="content",
+                    ),
+                ),
+                (
+                    "published",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now,
+                        help_text="The time that the post should be published.",
+                        verbose_name="publish time",
+                    ),
+                ),
+                (
+                    "slug",
+                    models.SlugField(
+                        help_text="A unique slug identifying the post.",
+                        unique=True,
+                        verbose_name="slug",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        help_text="The title of the post.",
+                        max_length=100,
+                        verbose_name="title",
+                    ),
+                ),
+                (
+                    "updated",
+                    models.DateTimeField(
+                        auto_now=True,
+                        help_text="The last time the post was updated.",
+                        verbose_name="update time",
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        help_text="The user who wrote the post.",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="blog_posts",
+                        related_query_name="blog_post",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="author",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'post',
-                'verbose_name_plural': 'posts',
-                'ordering': ('-published',),
+                "verbose_name": "post",
+                "verbose_name_plural": "posts",
+                "ordering": ("-published",),
             },
-        ),
+        )
     ]

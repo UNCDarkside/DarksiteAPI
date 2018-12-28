@@ -25,7 +25,7 @@ def test_resolve_post_invalid_slug(db):
     query = schema.Query()
 
     with pytest.raises(models.Post.DoesNotExist):
-        query.resolve_post(None, slug='does-not-exist')
+        query.resolve_post(None, slug="does-not-exist")
 
 
 def test_resolve_post_not_published(post_factory):
@@ -40,9 +40,7 @@ def test_resolve_post_not_published(post_factory):
     post = post_factory(published=later)
 
     with mock.patch(
-        'cms.blog.schema.timezone.now',
-        autospec=True,
-        return_value=now,
+        "cms.blog.schema.timezone.now", autospec=True, return_value=now
     ):
         with pytest.raises(models.Post.DoesNotExist):
             query.resolve_post(None, slug=post.slug)
@@ -60,9 +58,7 @@ def test_resolve_posts(post_factory):
     post_factory(published=later)
 
     with mock.patch(
-        'cms.blog.schema.timezone.now',
-        autospec=True,
-        return_value=now,
+        "cms.blog.schema.timezone.now", autospec=True, return_value=now
     ):
         result = query.resolve_posts(None)
 

@@ -23,9 +23,10 @@ class UserFactory(factory.DjangoModelFactory):
     """
     Factory used to generate ``User`` instances for testing.
     """
-    email = factory.Sequence(lambda n: f'test{n}@example.com')
-    name = 'John Smith'
-    password = 'password'
+
+    email = factory.Sequence(lambda n: f"test{n}@example.com")
+    name = "John Smith"
+    password = "password"
 
     class Meta:
         model = settings.AUTH_USER_MODEL
@@ -85,15 +86,12 @@ def image():
     Returns:
         A ``ContentFile`` containing a simple image.
     """
-    image = Image.new('RGB', (200, 200), 'red')
+    image = Image.new("RGB", (200, 200), "red")
 
     out_stream = io.BytesIO()
-    image.save(out_stream, format='png')
+    image.save(out_stream, format="png")
 
-    return ContentFile(
-        content=out_stream.getvalue(),
-        name='foo.png',
-    )
+    return ContentFile(content=out_stream.getvalue(), name="foo.png")
 
 
 @pytest.fixture

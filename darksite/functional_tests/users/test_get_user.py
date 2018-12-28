@@ -4,14 +4,14 @@ import requests
 
 from functional_tests import graphql_utils
 
-USER_QUERY = '''
+USER_QUERY = """
 query {{
   user(id: "{id}") {{
     id
     name
   }}
 }}
-'''
+"""
 
 
 def test_get_user(live_server, user_factory):
@@ -20,23 +20,16 @@ def test_get_user(live_server, user_factory):
     ID.
     """
     user = user_factory()
-    expected = {
-        'id': str(user.id),
-        'name': user.name,
-    }
+    expected = {"id": str(user.id), "name": user.name}
 
     response = requests.get(
-        f'{live_server.url}/graphql/',
-        json={'query': USER_QUERY.format(id=user.id)},
+        f"{live_server.url}/graphql/",
+        json={"query": USER_QUERY.format(id=user.id)},
     )
     response.raise_for_status()
 
     assert response.status_code == 200
-    assert response.json() == {
-        'data': {
-            'user': expected,
-        },
-    }
+    assert response.json() == {"data": {"user": expected}}
 
 
 def test_get_user_invalid_id(live_server):
@@ -45,14 +38,12 @@ def test_get_user_invalid_id(live_server):
     returned.
     """
     response = requests.get(
-        f'{live_server.url}/graphql/',
-        json={'query': USER_QUERY.format(id=uuid.uuid4())},
+        f"{live_server.url}/graphql/",
+        json={"query": USER_QUERY.format(id=uuid.uuid4())},
     )
     response.raise_for_status()
 
     assert response.status_code == 200
     graphql_utils.assert_has_error(
-        response.json(),
-        'User matching query does not exist.',
-        path=['user'],
+        response.json(), "User matching query does not exist.", path=["user"]
     )

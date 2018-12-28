@@ -7,22 +7,50 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Team',
+            name="Team",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True, help_text='The time the team was created at.', verbose_name='creation time')),
-                ('year', models.PositiveSmallIntegerField(help_text='The year that the team had their season.', unique=True, verbose_name='year')),
-                ('updated', models.DateTimeField(auto_now=True, help_text='The last time the team was updated.', verbose_name='last update time')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        help_text="The time the team was created at.",
+                        verbose_name="creation time",
+                    ),
+                ),
+                (
+                    "year",
+                    models.PositiveSmallIntegerField(
+                        help_text="The year that the team had their season.",
+                        unique=True,
+                        verbose_name="year",
+                    ),
+                ),
+                (
+                    "updated",
+                    models.DateTimeField(
+                        auto_now=True,
+                        help_text="The last time the team was updated.",
+                        verbose_name="last update time",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'team',
-                'verbose_name_plural': 'teams',
-                'ordering': ('-year',),
+                "verbose_name": "team",
+                "verbose_name_plural": "teams",
+                "ordering": ("-year",),
             },
-        ),
+        )
     ]

@@ -18,7 +18,7 @@ def test_repr():
     needed to reconstruct the team.
     """
     team = models.Team(year=2018)
-    expected = f'Team(year={repr(team.year)})'
+    expected = f"Team(year={repr(team.year)})"
 
     assert repr(team) == expected
 
@@ -29,6 +29,6 @@ def test_str():
     year range that the team played.
     """
     team = models.Team(year=2018)
-    expected = f'Darkside {team.year - 1}/{team.year}'
+    expected = f"Darkside {team.year - 1}/{team.year}"
 
     assert str(team) == expected

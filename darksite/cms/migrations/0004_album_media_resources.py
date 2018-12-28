@@ -5,14 +5,19 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('cms', '0003_album'),
-    ]
+    dependencies = [("cms", "0003_album")]
 
     operations = [
         migrations.AddField(
-            model_name='album',
-            name='media_resources',
-            field=models.ManyToManyField(blank=True, help_text='The media resources contained in the album.', related_name='albums', related_query_name='album', to='cms.MediaResource', verbose_name='media resources'),
-        ),
+            model_name="album",
+            name="media_resources",
+            field=models.ManyToManyField(
+                blank=True,
+                help_text="The media resources contained in the album.",
+                related_name="albums",
+                related_query_name="album",
+                to="cms.MediaResource",
+                verbose_name="media resources",
+            ),
+        )
     ]

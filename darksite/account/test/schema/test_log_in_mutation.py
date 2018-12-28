@@ -18,27 +18,22 @@ def test_log_in_invalid_credentials(db):
     mutation = schema.LogIn()
 
     with pytest.raises(Exception):
-        mutation.mutate(None, email='fake@example.com', password='password')
+        mutation.mutate(None, email="fake@example.com", password="password")
 
 
-@mock.patch(
-    'account.schema.login',
-    autospec=True,
-)
+@mock.patch("account.schema.login", autospec=True)
 def test_log_in_valid_credentials(mock_login, rf, user_factory):
     """
     If valid credentials are provided to the mutation, the user with
     those credentials should be logged in and returned.
     """
     mutation = schema.LogIn()
-    password = 'password'
+    password = "password"
     user = user_factory(password=password)
 
-    request = rf.post('/')
+    request = rf.post("/")
     result = mutation.mutate(
-        DummyInfo(request),
-        email=user.email,
-        password=password,
+        DummyInfo(request), email=user.email, password=password
     )
 
     assert mock_login.call_count == 1

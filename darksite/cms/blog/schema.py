@@ -10,18 +10,19 @@ class PostType(graphene_django.DjangoObjectType):
     """
     A blog post.
     """
+
     rendered = graphene.String(
-        description=_("The rendered HTML of the post's Markdown content."),
+        description=_("The rendered HTML of the post's Markdown content.")
     )
 
     class Meta:
         only_fields = (
-            'author',
-            'content',
-            'published',
-            'slug',
-            'title',
-            'updated',
+            "author",
+            "content",
+            "published",
+            "slug",
+            "title",
+            "updated",
         )
         model = models.Post
 
@@ -29,14 +30,13 @@ class PostType(graphene_django.DjangoObjectType):
 class Query(graphene.ObjectType):
     post = graphene.Field(
         PostType,
-        description=_('Query for a specific post.'),
+        description=_("Query for a specific post."),
         slug=graphene.String(
             description=_("The unique slug identifying the post.")
-        )
+        ),
     )
     posts = graphene.List(
-        PostType,
-        description=_('Query for a list of posts.'),
+        PostType, description=_("Query for a list of posts.")
     )
 
     @staticmethod
@@ -52,8 +52,7 @@ class Query(graphene.ObjectType):
             The post with the given slug if it has been published.
         """
         return models.Post.objects.get(
-            published__lte=timezone.now(),
-            slug=slug,
+            published__lte=timezone.now(), slug=slug
         )
 
     @staticmethod

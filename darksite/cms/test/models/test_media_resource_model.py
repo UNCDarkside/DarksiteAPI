@@ -18,9 +18,9 @@ def test_str_with_title(media_resource_factory):
     If a resource has a title, it should be included in the string
     representation.
     """
-    resource = media_resource_factory(title='Test Resource')
+    resource = media_resource_factory(title="Test Resource")
 
-    assert str(resource) == f'{resource.id} ({resource.title})'
+    assert str(resource) == f"{resource.id} ({resource.title})"
 
 
 def test_ordering(media_resource_factory):
@@ -38,7 +38,7 @@ def test_clean_both_image_and_youtube_id(image):
     If a media resource has both an image and YouTube video ID specified
     then cleaning it should throw an error.
     """
-    resource = models.MediaResource(image=image, youtube_id='dQw4w9WgXcQ')
+    resource = models.MediaResource(image=image, youtube_id="dQw4w9WgXcQ")
 
     with pytest.raises(ValidationError):
         resource.clean()
@@ -69,7 +69,7 @@ def test_clean_only_youtube_id():
     Cleaning a media resource that only has a YouTube video ID should do
     nothing.
     """
-    resource = models.MediaResource(youtube_id='dQw4w9WgXcQ')
+    resource = models.MediaResource(youtube_id="dQw4w9WgXcQ")
 
     resource.clean()
 
@@ -89,6 +89,6 @@ def test_type_youtube():
     If a media resource has a YouTube video ID, its type property should
     indicate it's a YouTube video.
     """
-    resource = models.MediaResource(youtube_id='dQw4w9WgXcQ')
+    resource = models.MediaResource(youtube_id="dQw4w9WgXcQ")
 
     assert resource.type == models.MediaResource.TYPE_YOUTUBE

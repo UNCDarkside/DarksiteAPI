@@ -11,23 +11,21 @@ def assert_has_error(response, message, path=None):
             An optional path that the error should have occurred at. If
             not specified, this is not checked.
     """
-    criteria = [('message', message)]
+    criteria = [("message", message)]
     if path is not None:
-        criteria.append(('path', path))
+        criteria.append(("path", path))
 
-    assert len(response.get('errors', [])) > 0, (
-        'The response has no errors.'
-    )
+    assert len(response.get("errors", [])) > 0, "The response has no errors."
 
-    for error in response['errors']:
+    for error in response["errors"]:
         if _error_matches_criteria(error, criteria):
             return
 
     assert False, (
-        'No message found for the provided criteria:\n'
-        '        Criteria: {criteria}\n'
-        '  Error Messages: {errors}'
-    ).format(criteria=criteria, errors=response['errors'])
+        "No message found for the provided criteria:\n"
+        "        Criteria: {criteria}\n"
+        "  Error Messages: {errors}"
+    ).format(criteria=criteria, errors=response["errors"])
 
 
 def _error_matches_criteria(error, criteria):

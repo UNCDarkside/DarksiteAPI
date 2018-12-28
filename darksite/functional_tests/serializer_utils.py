@@ -16,13 +16,13 @@ def serialize_media_resource(media, base_url):
         return None
 
     return {
-        'caption': media.caption,
-        'created': media.created.isoformat(),
-        'id': str(media.id),
-        'image': _file_url(media.image, base_url),
-        'title': media.title,
-        'type': media.type,
-        'youtubeId': media.youtube_id or None,
+        "caption": media.caption,
+        "created": media.created.isoformat(),
+        "id": str(media.id),
+        "image": _file_url(media.image, base_url),
+        "title": media.title,
+        "type": media.type,
+        "youtubeId": media.youtube_id or None,
     }
 
 
@@ -43,4 +43,4 @@ def _file_url(file, base_url):
     if not file:
         return None
 
-    return f'{base_url}{file.url}'
+    return f"{base_url}{file.url}"

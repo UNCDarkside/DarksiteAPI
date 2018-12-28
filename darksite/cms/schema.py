@@ -13,12 +13,7 @@ class AlbumSummaryType(graphene_django.DjangoObjectType):
     """
 
     class Meta:
-        only_fields = (
-            'created',
-            'description',
-            'slug',
-            'title',
-        )
+        only_fields = ("created", "description", "slug", "title")
         model = models.Album
 
 
@@ -29,11 +24,11 @@ class AlbumType(graphene_django.DjangoObjectType):
 
     class Meta:
         only_fields = (
-            'created',
-            'description',
-            'media_resources',
-            'slug',
-            'title',
+            "created",
+            "description",
+            "media_resources",
+            "slug",
+            "title",
         )
         model = models.Album
 
@@ -44,12 +39,7 @@ class InfoPanelType(graphene_django.DjangoObjectType):
     """
 
     class Meta:
-        only_fields = (
-            'id',
-            'media',
-            'text',
-            'title',
-        )
+        only_fields = ("id", "media", "text", "title")
         model = models.InfoPanel
 
 
@@ -57,35 +47,36 @@ class MediaResourceType(graphene_django.DjangoObjectType):
     """
     A media object with some additional descriptive information.
     """
+
     # We have to redefine the field so it can be null.
     image = graphene.String(
         description=_(
             "The URL of the image that the media resource points to."
-        ),
+        )
     )
     type = graphene.String(
         description=_(
-            'A string describing the type of media that the object '
-            'encapsulates.'
+            "A string describing the type of media that the object "
+            "encapsulates."
         )
     )
     # We have to redefine the field so it can be null.
     youtube_id = graphene.String(
         description=_(
             "The ID of the YouTube video that the media resource points to."
-        ),
+        )
     )
 
     class Meta:
         only_fields = (
-            'caption',
-            'created',
-            'id',
-            'is_listed',
-            'image',
-            'title',
-            'type',
-            'youtube_id',
+            "caption",
+            "created",
+            "id",
+            "is_listed",
+            "image",
+            "title",
+            "type",
+            "youtube_id",
         )
         model = models.MediaResource
 
@@ -131,25 +122,21 @@ class MediaResourceType(graphene_django.DjangoObjectType):
 class Query(graphene.ObjectType):
     album = graphene.Field(
         AlbumType,
-        description=_('Get a specific album.'),
+        description=_("Get a specific album."),
         slug=graphene.String(
-            description=_('The unique slug identifying the album to fetch.'),
+            description=_("The unique slug identifying the album to fetch.")
         ),
     )
     albums = graphene.List(
-        AlbumSummaryType,
-        description=_('Get a list of all albums.'),
+        AlbumSummaryType, description=_("Get a list of all albums.")
     )
     info_panels = graphene.List(
-        InfoPanelType,
-        description=_('Get a list of all information panels.'),
+        InfoPanelType, description=_("Get a list of all information panels.")
     )
     media_resource = graphene.Field(
         MediaResourceType,
-        description=_('Get a specific media resource.'),
-        id=graphene.UUID(
-            description=_('The ID of a media resource.')
-        )
+        description=_("Get a specific media resource."),
+        id=graphene.UUID(description=_("The ID of a media resource.")),
     )
 
     @staticmethod
