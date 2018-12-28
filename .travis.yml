@@ -15,6 +15,7 @@ install:
   - pipenv sync --dev
 
 script:
+  - pipenv run black --check .
   - pipenv run flake8
   - COVERAGE_FILE=.coverage.unit pipenv run coverage run -m pytest darksite/
   - COVERAGE_FILE=.coverage.functional pipenv run coverage run -m pytest darksite/functional_tests

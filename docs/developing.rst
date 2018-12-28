@@ -67,19 +67,15 @@ We use Pipenv to manage our dependencies. We recommend installing all the develo
 
     pipenv install --dev
 
-+++++++
-Linting
-+++++++
+++++++++++
+Code Style
+++++++++++
 
-We use flake8 to check all commits for code style. If your commit does not pass the test, the automated build will fail. To ensure that all your committed code is compliant, you can install the flake8-provided git hook to check your code before every commit.
+We use a combination of `black` and `flake8` to ensure the code style for the project is consistent. These tools are used by our CI process to check every pushed commit. To ensure code is well-formatted before we push it, we use the `pre-commit` tool. After installing it, it will format your code on every commit.
 
 .. code-block:: bash
 
-    pipenv run flake8 --install-hook git
-    git config flake8.lazy true
-    git config flake8.strict true
-
-The configuration options that we set ensure that flake8 will only lint the staged files and that it will stop the commit process if it finds an error rather than emitting a warning.
+    pipenv run pre-commit install
 
 
 *******************
