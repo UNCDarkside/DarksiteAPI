@@ -1,14 +1,12 @@
-import requests
-
 from functional_tests import serializer_utils
 
 
 ALBUM_QUERY = """
-query {{
-  album(slug: "{slug}") {{
+query GetAlbumBySlug($slug: String!) {
+  album(slug: $slug) {
     created
     description
-    mediaResources {{
+    mediaResources {
       caption
       created
       id
@@ -16,15 +14,17 @@ query {{
       title
       type
       youtubeId
-    }}
+    }
     slug
     title
-  }}
-}}
+  }
+}
 """
 
 
-def test_get_album(album_factory, live_server, media_resource_factory):
+def test_get_album(
+    album_factory, api_client, live_server, media_resource_factory
+):
     """
     Users should be able to query for a specific album by its slug.
     """
@@ -47,10 +47,7 @@ def test_get_album(album_factory, live_server, media_resource_factory):
         "title": album.title,
     }
 
-    response = requests.get(
-        f"{live_server.url}/graphql/",
-        json={"query": ALBUM_QUERY.format(slug=album.slug)},
-    )
+    response = api_client.query(ALBUM_QUERY, variables={"slug": album.slug})
     response.raise_for_status()
 
     assert response.status_code == 200

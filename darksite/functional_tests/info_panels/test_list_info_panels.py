@@ -1,5 +1,3 @@
-import requests
-
 from cms import models
 from functional_tests import serializer_utils
 
@@ -23,27 +21,8 @@ query {
 """
 
 
-def image_url(image, base_url):
-    if not image:
-        return None
-
-    return f"{base_url}{image.url}"
-
-
-def media_as_dict(media, base_url):
-    if not media:
-        return None
-
-    return {
-        "caption": media.caption,
-        "image": image_url(media.image, base_url),
-        "title": media.title,
-        "youtubeId": media.youtube_id or None,
-    }
-
-
 def test_list_info_panels(
-    image, info_panel_factory, live_server, media_resource_factory
+    api_client, image, info_panel_factory, live_server, media_resource_factory
 ):
     """
     Users should be able to list the info panels that exist through the
@@ -73,9 +52,7 @@ def test_list_info_panels(
             }
         )
 
-    response = requests.get(
-        f"{live_server.url}/graphql/", json={"query": INFO_PANEL_LIST_QUERY}
-    )
+    response = api_client.query(INFO_PANEL_LIST_QUERY)
     response.raise_for_status()
 
     assert response.status_code == 200

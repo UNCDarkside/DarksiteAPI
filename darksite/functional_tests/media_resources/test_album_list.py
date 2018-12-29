@@ -1,6 +1,3 @@
-import requests
-
-
 ALBUM_LIST_QUERY = """
 query {
   albums {
@@ -13,7 +10,7 @@ query {
 """
 
 
-def test_list_albums(album_factory, live_server):
+def test_list_albums(album_factory, api_client):
     """
     Users should be able to list the albums in the system.
     """
@@ -38,9 +35,7 @@ def test_list_albums(album_factory, live_server):
             }
         )
 
-    response = requests.get(
-        f"{live_server.url}/graphql/", json={"query": ALBUM_LIST_QUERY}
-    )
+    response = api_client.query(ALBUM_LIST_QUERY)
     response.raise_for_status()
 
     assert response.status_code == 200

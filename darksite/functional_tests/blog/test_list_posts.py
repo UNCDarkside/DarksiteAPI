@@ -1,5 +1,3 @@
-import requests
-
 from cms.blog import models
 
 
@@ -21,7 +19,7 @@ query {
 """
 
 
-def test_list_posts(live_server, post_factory):
+def test_list_posts(api_client, post_factory):
     """
     Users should be able to query a list of blog posts through the
     GraphQL API.
@@ -49,12 +47,9 @@ def test_list_posts(live_server, post_factory):
         )
 
     # Make the actual request
-    response = requests.get(
-        f"{live_server.url}/graphql/", json={"query": POST_LIST_QUERY}
-    )
+    response = api_client.query(POST_LIST_QUERY)
     response.raise_for_status()
-    response_data = response.json()
 
     # Check content
     assert response.status_code == 200
-    assert response_data == {"data": {"posts": expected}}
+    assert response.json() == {"data": {"posts": expected}}

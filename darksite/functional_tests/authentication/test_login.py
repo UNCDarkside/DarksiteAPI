@@ -1,8 +1,6 @@
-import requests
-
 from functional_tests import graphql_utils
 
-LOGIN_MUTATION = """
+LOG_IN_MUTATION = """
 mutation LogInMutation($email: String!, $password: String!) {
   logIn(email: $email, password: $password) {
     user {
@@ -14,19 +12,15 @@ mutation LogInMutation($email: String!, $password: String!) {
 """
 
 
-def test_log_in(live_server, user_factory):
+def test_log_in(api_client, user_factory):
     """
     Users should be able to log in by providing their credentials.
     """
     password = "password"
     user = user_factory(password=password)
 
-    response = requests.post(
-        f"{live_server.url}/graphql/",
-        json={
-            "query": LOGIN_MUTATION,
-            "variables": {"email": user.email, "password": password},
-        },
+    response = api_client.mutate(
+        LOG_IN_MUTATION, variables={"email": user.email, "password": password}
     )
     response.raise_for_status()
 
@@ -39,18 +33,15 @@ def test_log_in(live_server, user_factory):
     assert "sessionid" in response.cookies
 
 
-def test_log_in_invalid_credentials(live_server, user_factory):
+def test_log_in_invalid_credentials(api_client, user_factory):
     """
     Trying to log in with invalid credentials should raise an error.
     """
     user = user_factory(password="correct-password")
 
-    response = requests.post(
-        f"{live_server.url}/graphql/",
-        json={
-            "query": LOGIN_MUTATION,
-            "variables": {"email": user.email, "password": "wrong-password"},
-        },
+    response = api_client.mutate(
+        LOG_IN_MUTATION,
+        variables={"email": user.email, "password": "wrong-password"},
     )
     response.raise_for_status()
 

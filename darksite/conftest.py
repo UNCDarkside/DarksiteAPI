@@ -16,6 +16,7 @@ from cms.test.factories import (
     InfoPanelFactory,
     MediaResourceFactory,
 )
+from functional_tests.api_client import APIClient
 from teams.test.factories import TeamFactory
 
 
@@ -59,6 +60,15 @@ def album_factory(db):
         The factory class used to create albums for testing.
     """
     return AlbumFactory
+
+
+@pytest.fixture
+def api_client(live_server):
+    """
+    Returns:
+        An instance of the client used to interact with the GraphQL API.
+    """
+    return APIClient(f"{live_server.url}/graphql/")
 
 
 @pytest.fixture

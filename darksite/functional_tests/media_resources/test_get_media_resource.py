@@ -4,6 +4,7 @@ import requests
 
 from functional_tests import serializer_utils, graphql_utils
 
+
 MEDIA_RESOURCE_QUERY = """
 query {{
   mediaResource(id: "{id}") {{
