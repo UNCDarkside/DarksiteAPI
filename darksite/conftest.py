@@ -17,7 +17,7 @@ from cms.test.factories import (
     MediaResourceFactory,
 )
 from functional_tests.api_client import APIClient
-from teams.test.factories import TeamFactory
+from teams.test.factories import PersonFactory, TeamFactory
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -120,6 +120,15 @@ def media_resource_factory(db):
         The factory class used to generate media resources for testing.
     """
     return MediaResourceFactory
+
+
+@pytest.fixture
+def person_factory(db):
+    """
+    Returns:
+        The factory class used to generate people for testing.
+    """
+    return PersonFactory
 
 
 @pytest.fixture

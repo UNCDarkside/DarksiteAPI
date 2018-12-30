@@ -3,6 +3,19 @@ from django.contrib import admin
 from teams import models
 
 
+@admin.register(models.Person)
+class PersonAdmin(admin.ModelAdmin):
+    """
+    Admin for the :class:`Person` model.
+    """
+
+    date_hierarchy = "created"
+    fields = ("name", "slug", "created", "updated")
+    list_display = ("name", "slug", "created", "updated")
+    readonly_fields = ("slug", "created", "updated")
+    search_fields = ("name", "slug")
+
+
 @admin.register(models.Team)
 class TeamAdmin(admin.ModelAdmin):
     """
