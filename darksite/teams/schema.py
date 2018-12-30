@@ -137,3 +137,22 @@ class Mutations(graphene.ObjectType):
             "allowed to create a new team."
         )
     )
+
+
+class Query(graphene.ObjectType):
+    teams = graphene.List(
+        TeamType,
+        description=_("List all the teams in the database."),
+        required=True,
+    )
+
+    @staticmethod
+    def resolve_teams(*_):
+        """
+        Get a list of all teams in the database.
+
+        Returns:
+            A queryset containing all the teams in the database ordered
+            by year, descending.
+        """
+        return models.Team.objects.order_by("-year")

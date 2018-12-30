@@ -14,6 +14,7 @@ class Query(
     account.schema.Query,
     cms.schema.Query,
     cms.blog.schema.Query,
+    teams.schema.Query,
     graphene.ObjectType,
 ):
     pass
