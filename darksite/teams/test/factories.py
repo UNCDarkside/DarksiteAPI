@@ -1,5 +1,6 @@
 import factory
 
+from teams import models
 from test_utils import CleanAndSaveFactoryMixin
 
 
@@ -23,3 +24,17 @@ class TeamFactory(factory.DjangoModelFactory):
 
     class Meta:
         model = "teams.Team"
+
+
+class TeamMemberFactory(factory.DjangoModelFactory):
+    """
+    Factory for generating :class:`TeamMember` instances for testing.
+    """
+
+    number = factory.Sequence(int)
+    person = factory.SubFactory("teams.test.factories.PersonFactory")
+    role = models.TeamMember.PLAYER
+    team = factory.SubFactory("teams.test.factories.TeamFactory")
+
+    class Meta:
+        model = "teams.TeamMember"

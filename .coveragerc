@@ -2,9 +2,10 @@
 branch = True
 omit = \
        */functional_tests/*,
+       */migrations/*,
        */test/*,
+       */admin.py
+       */conftest.py,
        darksite/manage.py,
        darksite/darksite/wsgi.py,
-       */migrations/*,
-       */admin.py
 source = darksite
