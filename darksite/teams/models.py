@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -91,6 +90,14 @@ class Team(models.Model):
         help_text=_("The time the team was created at."),
         verbose_name=_("creation time"),
     )
+    members = models.ManyToManyField(
+        "teams.Person",
+        blank=True,
+        help_text=_("The members who make up the team."),
+        related_name="teams",
+        related_query_name="team",
+        through="teams.TeamMember",
+    )
     year = models.PositiveSmallIntegerField(
         help_text=_("The year that the team had their season."),
         unique=True,
@@ -122,3 +129,77 @@ class Team(models.Model):
             instance played for.
         """
         return f"Darkside {self.year - 1}/{self.year}"
+
+
+class TeamMember(models.Model):
+    """
+    A team member is a person who has a role on a team either as a
+    player or coach.
+    """
+
+    COACH = "C"
+    PLAYER = "P"
+
+    ROLE_CHOICES = ((COACH, _("Coach")), (PLAYER, _("Player")))
+
+    created = models.DateTimeField(
+        auto_now_add=True,
+        help_text=_("The time that the team member was created at."),
+        verbose_name=_("creation time"),
+    )
+    number = models.PositiveSmallIntegerField(
+        blank=True,
+        help_text=_("The team member's number if they are a player."),
+        null=True,
+        verbose_name=_("number"),
+    )
+    person = models.ForeignKey(
+        "teams.Person",
+        help_text=_("The person who is a member of the team."),
+        on_delete=models.CASCADE,
+        verbose_name=_("person"),
+    )
+    role = models.CharField(
+        choices=ROLE_CHOICES,
+        help_text=_("The member's role on the team."),
+        max_length=1,
+        verbose_name=_("role"),
+    )
+    team = models.ForeignKey(
+        "teams.Team",
+        help_text=_("The team the person is a member of."),
+        on_delete=models.CASCADE,
+        verbose_name=_("team"),
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        help_text=_("The last time the team member was updated."),
+        verbose_name=_("last update time"),
+    )
+
+    class Meta:
+        ordering = ("-created",)
+        unique_together = ("person", "team")
+        verbose_name = _("team member")
+        verbose_name_plural = _("team members")
+
+    def __repr__(self):
+        """
+        Returns:
+            A string representation of the instance.
+        """
+        return (
+            f"TeamMember(id={repr(self.id)}, number={repr(self.number)}, "
+            f"person_slug={repr(self.person.slug)}, role={repr(self.role)}, "
+            f"team_id={repr(self.team.id)})"
+        )
+
+    def __str__(self):
+        """
+        Returns:
+            A user readable string describing the instance.
+        """
+        if self.number is not None:
+            return f"{self.person.name} (#{self.number})"
+
+        return self.person.name

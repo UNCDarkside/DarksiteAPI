@@ -17,7 +17,7 @@ from cms.test.factories import (
     MediaResourceFactory,
 )
 from functional_tests.api_client import APIClient
-from teams.test.factories import PersonFactory, TeamFactory
+from teams.test.factories import PersonFactory, TeamFactory, TeamMemberFactory
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -147,6 +147,15 @@ def team_factory(db):
         The factory class used to create teams for testing.
     """
     return TeamFactory
+
+
+@pytest.fixture
+def team_member_factory(db):
+    """
+    Returns:
+        The factory class used to create team members for testing.
+    """
+    return TeamMemberFactory
 
 
 @pytest.fixture
