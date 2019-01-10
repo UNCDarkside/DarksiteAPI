@@ -104,3 +104,18 @@ The first time you run the project, you will want to create a super-user that yo
 .. code-block:: bash
 
     pipenv run darksite/manage.py createsuperuser
+
+
+*******
+Testing
+*******
+
+The project has a comprehensive test suite to ensure correctness. Tests are run using pytest. For more information on our testing process, see the :ref:`testing` page.
+
+.. code-block:: bash
+
+    # Unit Tests
+    pipenv run pytest darksite/
+
+    # Functional Tests
+    pipenv run pytest darksite/functional_tests/

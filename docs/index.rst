@@ -11,5 +11,6 @@ Darksite API Documentation
 
    overview
    developing
+   developer/testing
 
 .. include:: ../README.rst
