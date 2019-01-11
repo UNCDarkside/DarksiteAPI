@@ -1,6 +1,17 @@
 from teams import schema, models
 
 
+def test_resolve_team(team_factory):
+    """
+    The team field should resolve to the team with the specified year if
+    it exists.
+    """
+    query = schema.Query()
+    team = team_factory()
+
+    assert query.resolve_team(None, year=team.year) == team
+
+
 def test_resolve_teams(team_factory):
     """
     The teams field should resolve to a list of all teams in order of

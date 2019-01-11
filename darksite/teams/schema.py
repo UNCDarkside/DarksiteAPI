@@ -38,9 +38,28 @@ class TeamType(graphene_django.DjangoObjectType):
     A team for a specific year.
     """
 
+    # We have to explicitly type this field or else it defaults to
+    # using the "PersonType" class.
+    members = graphene.List(TeamMemberType)
+
     class Meta:
-        only_fields = ("year",)
+        only_fields = ("members", "year")
         model = models.Team
+
+    @staticmethod
+    def resolve_members(team, *_):
+        """
+        Resolve the member list for a team.
+
+        Args:
+            team:
+                The team to return the members of.
+
+        Returns:
+            An iterable of the :class:`TeamMember` instances that belong
+            to the team.
+        """
+        return team.teammember_set.all()
 
 
 class AddTeamMember(graphene.Mutation):
@@ -251,11 +270,32 @@ class Mutations(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
+    team = graphene.Field(
+        TeamType,
+        description=_("Retrieve the team for a specific year."),
+        year=graphene.Int(
+            description=_("The year of the team to retrieve."), required=True
+        ),
+    )
     teams = graphene.List(
         TeamType,
         description=_("List all the teams in the database."),
         required=True,
     )
+
+    @staticmethod
+    def resolve_team(*_, year=None):
+        """
+        Retrieve a team for a specific year.
+
+        Args:
+            year:
+                The year of the team to fetch.
+
+        Returns:
+            The team matching the provided year.
+        """
+        return models.Team.objects.get(year=year)
 
     @staticmethod
     def resolve_teams(*_):
